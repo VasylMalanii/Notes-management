@@ -27,9 +27,20 @@
                 <td>{{n.Text}}</td>
                 <td>{{n.Category}}</td>
                 <td><button>Редагувати</button></td>
-                <td><button>Видалити</button></td>
+                <td><button ng-click="DeleteNote($index)">Видалити</button></td>
             </tr>
         </table>
+        <div>
+            <h2>Додати новий елемент</h2>
+            <table>
+                <tr>
+                    <td><input type="text" placeholder="Title" ng-model="Note.Title"/></td>
+                    <td><input type="text" placeholder="Text" ng-model="Note.Text"/></td>
+                    <td><input type="text" placeholder="Category" ng-model="Note.Category"/></td>
+                </tr>
+            </table>
+            <button ng-click="AddNote()">Додати</button>
+        </div>
     </div>
     <script>
         var app = angular.module('notesApp', []);
@@ -38,6 +49,41 @@
             .then(function (response) {
                 $scope.notes = response.data;
             });
+
+            $scope.Note = {
+                Title: '',
+                Text: '',
+                Category: ''
+            };
+
+            $scope.DeleteNote = function (index) {
+                $http({
+                    method: 'DELETE',
+                    url: location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/api/notes/' + $scope.notes[index].NoteId,
+                }).then(function successCallback(response) {
+                    $scope.notes.splice(index, 1);
+                }, function errorCallback(response) {
+                    alert("Error : " + response.data.ExceptionMessage);
+                });
+            };
+
+            $scope.AddNote = function () {
+                if ($scope.Note.Title != "" && $scope.Note.Text != "" && $scope.Note.Category != "") {
+                    $http({
+                        method: 'POST',
+                        url: location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/api/notes',
+                        data: $scope.Note
+                    }).then(function successCallback(response) {
+                        $scope.notes.push(response.data);
+                    }, function errorCallback(response) {
+                        alert("Error : " + response.data.ExceptionMessage);
+                    });
+                }
+                else {
+                    alert('Not all fields are filled!');
+                }
+            };
+
         });
     </script>
 </body>
