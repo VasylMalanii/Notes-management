@@ -21,70 +21,34 @@
 <body>
     <div ng-app="notesApp" ng-controller="notesController">
         <table>
+            <tr>
+                <th>Title</th>
+                <th>Text</th>
+                <th>Category</th>
+            </tr>
             <tr ng-repeat="n in notes">
-                <td>{{n.NoteId}}</td>
                 <td>{{n.Title}}</td>
                 <td>{{n.Text}}</td>
                 <td>{{n.Category}}</td>
-                <td><button>Редагувати</button></td>
-                <td><button ng-click="DeleteNote($index)">Видалити</button></td>
+                <td><button ng-click="EditNote(notes[$index])">Edit</button></td>
+                <td><button ng-click="DeleteNote($index)">Delete</button></td>
             </tr>
         </table>
         <div>
-            <h2>Додати новий елемент</h2>
+            <h3 style="margin-bottom:0px" ng-show="showEditFields==false">Add new note</h3>
+            <h3 style="margin-bottom:0px" ng-show="showEditFields">Edit note</h3>
             <table>
                 <tr>
-                    <td><input type="text" placeholder="Title" ng-model="Note.Title"/></td>
-                    <td><input type="text" placeholder="Text" ng-model="Note.Text"/></td>
-                    <td><input type="text" placeholder="Category" ng-model="Note.Category"/></td>
+                    <td><input type="text" placeholder="Title" ng-model="Note.Title" /></td>
+                    <td><input type="text" placeholder="Text" ng-model="Note.Text" /></td>
+                    <td><input type="text" placeholder="Category" ng-model="Note.Category" /></td>
                 </tr>
             </table>
-            <button ng-click="AddNote()">Додати</button>
+            <button ng-click="AddNote()" ng-show="showEditFields==false">Add</button>
+            <button ng-click="UpdateNote()" ng-show="showEditFields">Edit</button>
+            <button ng-click="Cancel()" ng-show="showEditFields">Cancel</button>
         </div>
     </div>
-    <script>
-        var app = angular.module('notesApp', []);
-        app.controller('notesController', function ($scope, $http) {
-            $http.get(location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + "/api/notes")
-            .then(function (response) {
-                $scope.notes = response.data;
-            });
-
-            $scope.Note = {
-                Title: '',
-                Text: '',
-                Category: ''
-            };
-
-            $scope.DeleteNote = function (index) {
-                $http({
-                    method: 'DELETE',
-                    url: location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/api/notes/' + $scope.notes[index].NoteId,
-                }).then(function successCallback(response) {
-                    $scope.notes.splice(index, 1);
-                }, function errorCallback(response) {
-                    alert("Error : " + response.data.ExceptionMessage);
-                });
-            };
-
-            $scope.AddNote = function () {
-                if ($scope.Note.Title != "" && $scope.Note.Text != "" && $scope.Note.Category != "") {
-                    $http({
-                        method: 'POST',
-                        url: location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/api/notes',
-                        data: $scope.Note
-                    }).then(function successCallback(response) {
-                        $scope.notes.push(response.data);
-                    }, function errorCallback(response) {
-                        alert("Error : " + response.data.ExceptionMessage);
-                    });
-                }
-                else {
-                    alert('Not all fields are filled!');
-                }
-            };
-
-        });
-    </script>
+    <script src="../Scripts/controller.js"></script>
 </body>
 </html>
