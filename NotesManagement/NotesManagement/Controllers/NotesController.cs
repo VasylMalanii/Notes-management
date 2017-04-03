@@ -14,7 +14,7 @@ namespace NotesManagement.Controllers
 {
     public class NotesController : ApiController
     {
-        private NotesContext db = new NotesContext();
+        protected NotesContext db = new NotesContext();
         
         // GET: api/Notes
         public IEnumerable<Note> GetNotes()

@@ -117,6 +117,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\NotesContext-20170330200041.mdf" />
+    <Content Include="App_Data\NotesContext-20170330200041_log.ldf">
+      <DependentUpon>NotesContext-20170330200041.mdf</DependentUpon>
+    </Content>
     <Content Include="Global.asax" />
     <Content Include="Scripts\controller.js" />
     <Content Include="Views\index.html" />
@@ -128,11 +132,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703301704310_Initial.cs" />
-    <Compile Include="Migrations\201703301704310_Initial.Designer.cs">
-      <DependentUpon>201703301704310_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Note.cs" />
     <Compile Include="Models\NotesContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -149,14 +148,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703301704310_Initial.resx">
-      <DependentUpon>201703301704310_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

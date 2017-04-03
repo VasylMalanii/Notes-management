@@ -10,7 +10,6 @@ namespace NotesManagement.Models
     {
         public NotesContext() : base("name=NotesContext")
         {
-
         }
 
         public System.Data.Entity.DbSet<NotesManagement.Models.Note> Notes { get; set; }
